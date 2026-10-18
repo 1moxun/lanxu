@@ -1,4 +1,4 @@
-import { isGptModel } from '@/lib/model-category'
+import { isFullClaudeModel, isGptModel } from '@/lib/model-category'
 
 /*
 Copyright (C) 2023-2026 QuantumNous
@@ -21,7 +21,9 @@ For commercial licensing, please contact support@quantumnous.com
 import type { GroupOption, ModelOption } from '../../types'
 
 export function getModelCategory(model: string): string {
-  return isGptModel(model) ? 'GPT' : 'Other'
+  if (isGptModel(model)) return 'GPT'
+  if (isFullClaudeModel(model)) return 'Claude'
+  return 'Other'
 }
 
 export function getModelFallback(

@@ -62,10 +62,13 @@ function toolbarProps(): PricingToolbarProps {
 }
 
 describe('pricing controls', () => {
-  it('automatically includes newly listed GPT models in the GPT category', () => {
+  it('keeps GPT, verified Claude, and other models in separate categories', () => {
     const models = [
       { model_name: 'gpt-5.5' },
       { model_name: 'gpt-6.2-new' },
+      { model_name: 'claude-opus-5-5' },
+      { model_name: 'claude-haiku-5-5' },
+      { model_name: 'claude-unverified' },
       { model_name: 'codex-auto-review' },
     ] as PricingModel[]
 
@@ -73,8 +76,11 @@ describe('pricing controls', () => {
       filterByModelCategory(models, 'gpt').map((m) => m.model_name)
     ).toEqual(['gpt-5.5', 'gpt-6.2-new'])
     expect(
+      filterByModelCategory(models, 'claude').map((m) => m.model_name)
+    ).toEqual(['claude-opus-5-5', 'claude-haiku-5-5'])
+    expect(
       filterByModelCategory(models, 'other').map((m) => m.model_name)
-    ).toEqual(['codex-auto-review'])
+    ).toEqual(['claude-unverified', 'codex-auto-review'])
   })
 
   it('counts each model once per filter and updates counts when the catalog changes', () => {

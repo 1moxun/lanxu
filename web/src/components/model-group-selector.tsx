@@ -100,6 +100,11 @@ interface GroupSelectorProps {
   disabled?: boolean
 }
 
+const modelCategoryLabelKeys: Record<string, string> = {
+  GPT: 'GPT models',
+  Claude: 'Full Claude models',
+}
+
 const ModelTriggerButton = React.forwardRef<
   React.ComponentRef<typeof Button>,
   React.ComponentPropsWithoutRef<typeof Button> & {
@@ -754,7 +759,7 @@ export const ModelGroupSelector: React.FC<ModelGroupSelectorProps> = ({
             ([category, categoryModels]) => (
               <CommandGroup className='p-1' key={category}>
                 <div className='text-muted-foreground px-2 py-1 text-[11px] font-medium'>
-                  {category === 'GPT' ? t('GPT models') : t('Other models')}
+                  {t(modelCategoryLabelKeys[category] ?? 'Other models')}
                 </div>
                 {categoryModels.map((model) => (
                   <CommandItem

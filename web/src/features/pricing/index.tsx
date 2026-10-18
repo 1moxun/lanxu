@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next'
 import { PublicLayout } from '@/components/layout'
 import { PageTransition } from '@/components/page-transition'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { isGptModel } from '@/lib/model-category'
+import { isFullClaudeModel, isGptModel } from '@/lib/model-category'
 
 import {
   LoadingSkeleton,
@@ -91,8 +91,13 @@ export function Pricing() {
     () => ({
       gpt: filteredModels.filter((model) => isGptModel(model.model_name || ''))
         .length,
+      claude: filteredModels.filter((model) =>
+        isFullClaudeModel(model.model_name || '')
+      ).length,
       other: filteredModels.filter(
-        (model) => !isGptModel(model.model_name || '')
+        (model) =>
+          !isGptModel(model.model_name || '') &&
+          !isFullClaudeModel(model.model_name || '')
       ).length,
     }),
     [filteredModels]
@@ -256,6 +261,9 @@ export function Pricing() {
                   </TabsTrigger>
                   <TabsTrigger value='gpt'>
                     {t('GPT models')} ({categoryCounts.gpt})
+                  </TabsTrigger>
+                  <TabsTrigger value='claude'>
+                    {t('Full Claude models')} ({categoryCounts.claude})
                   </TabsTrigger>
                   <TabsTrigger value='other'>
                     {t('Other models')} ({categoryCounts.other})

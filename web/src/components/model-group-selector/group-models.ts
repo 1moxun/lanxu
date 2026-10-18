@@ -39,6 +39,8 @@ export function groupModelsByCategory<T extends CategorizedModelOption>(
     Object.entries(groups).sort(([left], [right]) => {
       if (left === 'GPT') return -1
       if (right === 'GPT') return 1
+      if (left === 'Claude') return -1
+      if (right === 'Claude') return 1
       return left.localeCompare(right)
     })
   )

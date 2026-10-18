@@ -1,4 +1,4 @@
-import { isGptModel } from '@/lib/model-category'
+import { isFullClaudeModel, isGptModel } from '@/lib/model-category'
 
 /*
 Copyright (C) 2023-2026 QuantumNous
@@ -28,18 +28,19 @@ import {
 import type { PricingModel } from '../types'
 import { hasTaskUsageSchema } from './dynamic-price'
 
-export type ModelCategoryFilter = 'all' | 'gpt' | 'other'
+export type ModelCategoryFilter = 'all' | 'gpt' | 'claude' | 'other'
 
 export function filterByModelCategory(
   models: PricingModel[],
   category: ModelCategoryFilter
 ): PricingModel[] {
   if (category === 'all') return models
-  return models.filter((model) =>
-    category === 'gpt'
-      ? isGptModel(model.model_name || '')
-      : !isGptModel(model.model_name || '')
-  )
+  return models.filter((model) => {
+    const name = model.model_name || ''
+    if (category === 'gpt') return isGptModel(name)
+    if (category === 'claude') return isFullClaudeModel(name)
+    return !isGptModel(name) && !isFullClaudeModel(name)
+  })
 }
 
 // ----------------------------------------------------------------------------

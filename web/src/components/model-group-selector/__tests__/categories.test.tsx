@@ -30,6 +30,11 @@ describe('model group selector model categories', () => {
           { label: 'gpt-5.5', value: 'gpt-5.5', category: 'GPT' },
           { label: 'gpt-6-astra', value: 'gpt-6-astra', category: 'GPT' },
           {
+            label: 'claude-opus-5-5',
+            value: 'claude-opus-5-5',
+            category: 'Claude',
+          },
+          {
             label: 'codex-auto-review',
             value: 'codex-auto-review',
             category: 'Other',
@@ -45,11 +50,13 @@ describe('model group selector model categories', () => {
     fireEvent.click(screen.getByRole('combobox'))
 
     expect(await screen.findByText('GPT models')).toBeInTheDocument()
+    expect(screen.getByText('Full Claude models')).toBeInTheDocument()
     expect(screen.getByText('Other models')).toBeInTheDocument()
     const modelOptions = screen.getAllByRole('option')
     expect(modelOptions.map((option) => option.textContent)).toEqual([
       'gpt-5.5',
       'gpt-6-astra',
+      'claude-opus-5-5',
       'codex-auto-review',
     ])
   })

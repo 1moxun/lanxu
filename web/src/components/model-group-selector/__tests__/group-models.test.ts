@@ -21,14 +21,19 @@ import { describe, expect, test } from 'vitest'
 import { groupModelsByCategory } from '../group-models'
 
 describe('model group selector model categories', () => {
-  test('places GPT models together before other models', () => {
+  test('places GPT and Claude models before other models', () => {
     const groupedModels = groupModelsByCategory([
       { label: 'codex-auto-review', value: 'codex-auto-review' },
       { category: 'GPT', label: 'gpt-6-astra', value: 'gpt-6-astra' },
       { category: 'GPT', label: 'gpt-5.5', value: 'gpt-5.5' },
+      {
+        category: 'Claude',
+        label: 'claude-opus-5-5',
+        value: 'claude-opus-5-5',
+      },
     ])
 
-    expect(Object.keys(groupedModels)).toEqual(['GPT', 'Other'])
+    expect(Object.keys(groupedModels)).toEqual(['GPT', 'Claude', 'Other'])
     expect(groupedModels.GPT.map((model) => model.value)).toEqual([
       'gpt-6-astra',
       'gpt-5.5',
